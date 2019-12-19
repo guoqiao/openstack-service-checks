@@ -10,6 +10,11 @@ options:
     description: |
       Switch to turn on or off neutron agents checks. By default, neutron_agents nrpe check is enabled.
       If a different SDN (ie. Contrail) is in use, you may want to disable this check.
+  check-loadbalancers:
+    default: True
+    type: boolean
+    description: |
+      Switch to turn on or off check for loadbalancers.
   check-rally:
     default: False
     type: boolean

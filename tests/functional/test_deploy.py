@@ -128,6 +128,7 @@ async def test_openstackservicechecks_verify_default_nrpe_checks(deploy_app, mod
     filenames.extend([
         '/etc/nagios/nrpe.d/check_nova_services.cfg',
         '/etc/nagios/nrpe.d/check_neutron_agents.cfg',
+        '/etc/nagios/nrpe.d/check_loadbalancers.cfg',
     ])
     for filename in filenames:
         test_stat = await file_stat(filename, unit)

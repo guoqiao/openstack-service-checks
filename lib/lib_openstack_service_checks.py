@@ -65,6 +65,10 @@ class OSCHelper():
         return self.charm_config['check-neutron-agents']
 
     @property
+    def is_loadbalancers_check_enabled(self):
+        return self.charm_config['check-loadbalancers']
+
+    @property
     def skipped_rally_checks(self):
         skipped_os_components = self.charm_config['skip-rally'].strip()
         if not skipped_os_components:
@@ -176,7 +180,6 @@ class OSCHelper():
                        description='Check that enabled Nova services are up',
                        check_cmd=check_command,
                        )
-
         if self.is_neutron_agents_check_enabled:
             nrpe.add_check(shortname='neutron_agents',
                            description='Check that enabled Neutron agents are up',
@@ -185,6 +188,15 @@ class OSCHelper():
                            )
         else:
             nrpe.remove_check(shortname='neutron_agents')
+
+        if self.is_loadbalancers_check_enabled:
+            nrpe.add_check(shortname='loadbalancers',
+                           description='Check loadbalancers status',
+                           check_cmd=os.path.join(self.plugins_dir,
+                                                  'check_loadbalancers.py'),
+                           )
+        else:
+            nrpe.remove_check(shortname='loadbalancers')
 
         if self.contrail_analytics_vip:
             contrail_check_command = '{} --host {}'.format(
